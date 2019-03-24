@@ -59,12 +59,22 @@ nav h1 {
   padding: 15px 0;
 }
 nav h1 a {
+  border-bottom: 4px solid transparent;
+  border-top: 4px solid transparent;
   color: #fff;
   font-size: 14pt;
-  font-weight: 200;
+  font-weight: bold;
   letter-spacing: 10px;
+  padding-left: 10px;
   text-transform: uppercase;
   transition: .65s color;
+}
+nav h1 a:focus {
+  border-top: 4px solid #ff5714;
+  outline: 0;
+}
+nav h1 a:visited {
+  color: #fff;
 }
 #breadcrumb {
   background-color: #eee;
@@ -120,14 +130,18 @@ nav h1 a {
 }
 .filter-options select {
   background-color: white;
-  border: 1px solid #fff;
+  border: 4px solid transparent;
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 11pt;
   height: 35px;
   letter-spacing: 0;
   margin: 10px;
-  padding: 0 10px;
+  padding: 4px 10px;
   width: 200px;
+}
+.filter-options select:focus {
+  border-top: 4px solid #ff5714;
+  outline: none;
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -186,6 +200,10 @@ nav h1 a {
   text-align: center;
   text-decoration: none;
   transition: .65s background-color;
+}
+#restaurants-list li a:focus {
+  border-top: 4px solid #3397db;
+  outline: none;
 }
 #restaurants-list li a:focus,
 #restaurants-list li a:hover {
@@ -298,6 +316,15 @@ nav h1 a {
 #restaurant-hours td {
   color: #666;
   padding-right: 15px;
+}
+
+/* ====================== Footer ====================== */
+#footer a {
+  border: 4px solid transparent;
+}
+#footer a:focus {
+  border-top: 4px solid #ff5714;
+  outline: none;
 }
 
 /* ====================== Media Queries ====================== */
