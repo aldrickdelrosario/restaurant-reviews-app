@@ -1,3 +1,7 @@
+/**
+ * restaurant_info.js
+ */
+
 let restaurant;
 var newMap;
 

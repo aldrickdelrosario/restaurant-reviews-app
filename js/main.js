@@ -1,3 +1,7 @@
+/**
+ * main.js
+ */
+
 let restaurants,
   neighborhoods,
   cuisines

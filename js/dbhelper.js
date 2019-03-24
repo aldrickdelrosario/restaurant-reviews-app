@@ -1,4 +1,8 @@
 /**
+ * dbhelper.js
+ */
+
+/**
  * Common database helper functions.
  */
 class DBHelper {
