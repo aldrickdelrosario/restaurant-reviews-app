@@ -2,7 +2,7 @@
  * sw.js
  */
 
-const appCache = 'v1-restaurant-reviews-app-cache';
+const appCache = 'v1.1-restaurant-reviews-app-cache';
 const cacheFiles = [
   '/',
   '/index.html',
@@ -20,6 +20,7 @@ const cacheFiles = [
   '/img/9.jpg',
   '/img/10.jpg',
   '/js/dbhelper.js',
+  '/js/main.js',
   '/js/restaurant_info.js'
 ];
 
@@ -34,36 +35,25 @@ self.addEventListener('install', function(event) {
 // serviceWorker fetch.
 self.addEventListener('fetch', function(event) {
   console.log('serviceWorker: fetch');
-  event.respondWith(fromCache(event.request));
-  event.waitUntil(update(event.request).then(refresh));
-
-  function fromCache(request) {
-    return caches.open(appCache).then(function(cache) {
-      return cache.match(request);
-    });
-  }
-
-  function update(request) {
-    return caches.open(appCache).then(function(appCache) {
-      return fetch(request).then(function(response) {
-        return appCache.put(request, response.clone()).then(function() {
-          return response;
-        });
-      });
-    });
-  }
-
-  function refresh(response) {
-    return self.clients.matchAll().then(function(clients) {
-      clients.forEach(function(client) {
-        var message = {
-          type: 'refresh',
-          url: response.url,
-          eTag: response.headers.get('ETag')
-        };
-
-        client.postMessage(JSON.stringify(message));
-      });
-    });
-  }
+  event.respondWith(fromNetwork(event.request, 400).catch(function() {
+    return fromCache(event.request);
+  }));
 });
+
+function fromNetwork(request, timeout) {
+  return new Promise(function(fulfill, reject) {
+    const timeoutId = setTimeout(reject, timeout);
+    fetch(request).then(function(response) {
+      clearTimeout(timeoutId);
+      fulfill(response);
+    }, reject);
+  });
+}
+
+function fromCache(request) {
+  return caches.open(appCache).then(function(cache) {
+    return cache.match(request).then(function(matching) {
+      return matching || Promise.reject('no-match');
+    });
+  });
+}
